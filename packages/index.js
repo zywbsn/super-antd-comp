@@ -1,5 +1,5 @@
-import SuperButton from "./components/SuperButton/index";
-import SuperTable from "./components/SuperTable/index";
+import SuperButton from "./SuperButton/index";
+import SuperTable from "./SuperTable/index";
 
 export { SuperButton, SuperTable };
 
