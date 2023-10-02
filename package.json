@@ -8,12 +8,14 @@
     "build:lib": "vite build --mode lib",
     "preview": "vite preview"
   },
-  "files": ["lib/"],
+  "files": [
+    "lib/"
+  ],
   "main": "./lib/SuperAntd.umd.js",
-  "exports":{
-    ".":{
-      "import":"./lib/SuperAntd.mjs",
-      "require":"./lib/SuperAntd.umd.js"
+  "exports": {
+    ".": {
+      "import": "./lib/SuperAntd.mjs",
+      "require": "./lib/SuperAntd.umd.js"
     }
   },
   "dependencies": {
@@ -27,6 +29,7 @@
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",
     "autoprefixer": "^10.4.5",
+    "dayjs": "^1.11.10",
     "postcss": "^8.4.13",
     "react-router-dom": "^6.16.0",
     "sass": "^1.51.0",
