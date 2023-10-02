@@ -4,7 +4,6 @@ import SuperButton from "../SuperButton/index"
 
 const ButtonList = (props) => {
   const { buttonList, custom } = props;
-  console.log("custom", custom);
   if (!custom) {
     const Items = buttonList.map((item) => (
       <React.Fragment key={item.text} >
@@ -16,8 +15,7 @@ const ButtonList = (props) => {
 };
 const SuperTable = (props) => {
   console.log("SuperTable props", props);
-  const { tableConfig } = props;
-  const { leftButton } = props;
+  const { tableConfig, leftButton } = props;
 
   return (
     <>
