@@ -1,62 +1,10 @@
-import React from "react";
-import { Tag, Space } from "antd";
-import { SuperTable } from "../../../../packages/index";
+import React, { useState } from "react";
+import { Tag, Space, Modal } from "antd";
+import { SuperForm, SuperTable } from "../../../../packages/index";
 
 const SuperTableIndex = () => {
-  const columns = [
-    {
-      key: 'sort',
-    },
-    {
-      title: 'msg',
-      children: [{
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text) => <a>{text}</a>,
-      },
-      {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-      }]
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      ),
-    },
-  ];
+  const [open, setOpen] = useState(false);//控制弹框
+
   const data = [
     {
       key: '1',
@@ -137,6 +85,96 @@ const SuperTableIndex = () => {
     },
   ];
 
+  const [dataList, setDataList] = useState(data);//控制弹框
+  const columns = [
+    {
+      title: 'msg',
+      children: [{
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text) => <a>{text}</a>,
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+      }]
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Tags',
+      key: 'tags',
+      dataIndex: 'tags',
+      render: (_, { tags }) => (
+        <>
+          {tags.map((tag) => {
+            let color = tag.length > 5 ? 'geekblue' : 'green';
+            if (tag === 'loser') {
+              color = 'volcano';
+            }
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <a>Invite {record.name}</a>
+          <a>Delete</a>
+        </Space>
+      ),
+    },
+  ];
+
+  const formItems = [
+    {
+      label: "key", name: "key", placeholder: "input key",
+      rules: [{ required: true, message: "input" }]
+    },
+    {
+      label: "name", name: "name", placeholder: "input name",
+      rules: [{ required: true, message: "input" }]
+    },
+    {
+      label: "age", name: "age", placeholder: "input age",
+      rules: [{ required: true, message: "input" }]
+    },
+    {
+      label: "address", name: "address", placeholder: "input address",
+      rules: [{ required: true, message: "input" }]
+    },
+    {
+      label: "tags", name: "tags", type: "select", mode: "multiple",
+      rules: [{ required: true, message: "select" }],
+      list: [{ value: "loser", label: "loser" }, { value: "cool", label: "cool" }, { value: "teacher", label: "teacher" }]
+    },
+  ]
+
+  const off = () => {
+    setOpen(false);
+  };
+
+  const onSubmit = (val) => {
+    setDataList([val, ...data])
+    off();
+  };
+
+  const onAdd = () => {
+    setOpen(true);
+  };
+
   return (
     <>
       <SuperTable
@@ -144,7 +182,7 @@ const SuperTableIndex = () => {
           custom: false,
           buttonList: [
             {
-              text: "SuperButton",
+              text: "新增",
               tooltipStatus: true,
               tooltipConfig: {
                 title: "tooltipConfig", placement: "topLeft", arrow: { pointAtCenter: true }
@@ -152,7 +190,7 @@ const SuperTableIndex = () => {
               buttonConfig: {
                 type: "primary"
               },
-              methods: { onClick: () => console.log("SuperButton") }
+              methods: { onClick: () => onAdd() }
             },
             {
               text: "SuperButton2",
@@ -178,9 +216,32 @@ const SuperTableIndex = () => {
           //   ),
           //   rowExpandable: (record) => record.address !== 'Not Expandable',
           // },
-          dataSource: data
+          dataSource: dataList
         }}
       />
+      <Modal
+        title="新增订单"
+        centered
+        open={open}
+        onOk={onSubmit}
+        onCancel={off}
+        footer={null}
+        width={1000}
+      >
+        <SuperForm
+          formItems={formItems}
+          double={true}
+          formConfig={{ colon: true }}
+          submitMethod={onSubmit}
+          leftBtn={[{
+            text: "取消",
+            buttonConfig: {
+              type: "text"
+            },
+            methods: { onClick: () => off() }
+          }]}
+        />
+      </Modal>
     </>
   )
 };

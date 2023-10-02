@@ -6,13 +6,19 @@ import SuperForm from "../../../packages/SuperForm/index";
 
 const Home = () => {
   const [count, setCount] = useState(1)
+  const [formData, setFormDate] = useState({})
   const changeCount = () => {
     setCount(count + 1);
+  };
+
+  const onSubmit = (value) => {
+    setFormDate(value);
   };
   return (
     <>
       <div>Home</div>
       <h1>{count}</h1>
+      <h1>{formData.name}</h1>
       <SuperButton
         text="SuperButton"
         tooltipStatus={true}
@@ -47,7 +53,9 @@ const Home = () => {
             },
           ]}
           // search={true}
+          double={true}
           formConfig={{ colon: true }}
+          submitMethod={onSubmit}
         />
       </div>
     </>
