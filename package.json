@@ -11,11 +11,11 @@
   "files": [
     "lib/"
   ],
-  "main": "./lib/SuperAntd.umd.js",
+  "main": "./lib/super-antd-comp.umd.js",
   "exports": {
     ".": {
-      "import": "./lib/SuperAntd.mjs",
-      "require": "./lib/SuperAntd.umd.js"
+      "import": "./lib/super-antd-comp.mjs",
+      "require": "./lib/super-antd-comp.umd.js"
     }
   },
   "dependencies": {
