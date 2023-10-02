@@ -158,7 +158,7 @@ const Layouts = () => {
                     </svg>
                   </Button>
                 </Tooltip>
-                <Tooltip title="清空颜色存在问题" className="mr-3 mr-3 flex items-center">
+                <Tooltip title="清空颜色存在问题" className="mr-3 flex items-center">
                   <Button
                     type='text'
                     onClick={clearColor}
