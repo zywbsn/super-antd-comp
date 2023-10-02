@@ -4,7 +4,7 @@ import {
   MenuUnfoldOutlined,
   Html5TwoTone
 } from "@ant-design/icons";
-import { ConfigProvider, Layout, Menu, Button, theme, Switch } from "antd";
+import { ConfigProvider, Layout, Menu, Button, theme, Switch, Tooltip, message } from "antd";
 import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import menus from "../utils/GetMenusList";
@@ -24,7 +24,7 @@ const randomColor = () => {
   return color;
 }
 const Layouts = () => {
-
+  const [messageApi, contextHolder] = message.useMessage();
   const Navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [useDark, setUseDark] = useState(JSON.parse(window.localStorage.getItem("useDark")));
@@ -51,6 +51,7 @@ const Layouts = () => {
   };
 
   const changeTheme = () => {
+    return messageApi.error("暗黑模式存在 bug~~");
     setUseDark(!useDark);
     window.localStorage.setItem("useDark", !useDark);
     const color = useDark ? lightTheme() : darkTheme();
@@ -62,11 +63,13 @@ const Layouts = () => {
   };
 
   const clearColor = () => {
+    return messageApi.error("清空颜色存在 bug~~");
     window.localStorage.setItem("colorConfig", JSON.stringify({}));
     useDark ? setDarkColor(darkTheme()) : setLightColor(lightTheme());
   };
 
   const onChangeColor = () => {
+    return messageApi.error("改变颜色存在 bug~~");
     colorError = randomColor();
     colorInfo = randomColor();
     colorLink = randomColor();
@@ -92,6 +95,7 @@ const Layouts = () => {
 
   return (
     <>
+      {contextHolder}
       <ConfigProvider
         theme={useDark ? darkColor : lightColor}
       >
@@ -99,7 +103,12 @@ const Layouts = () => {
           <Sider trigger={null} collapsible collapsed={collapsed}>
             <div style={{ background: getColor("colorBgContainer") }} className="w-full h-16 flex items-center justify-center">
               <Html5TwoTone twoToneColor="#A6ADB4" className="!text-3xl mr-1" />
-              <span className={collapsed ? "hidden" : "text-lg font-bold"} style={{ color: getColor("colorTextBase") }} >React 后台管理系统</span>
+              <span
+                className={collapsed ? "hidden" : "text-lg font-bold"}
+                style={{ color: getColor("colorTextBase") }}
+              >
+                super-antd-comp
+              </span>
             </div>
             <Menu
               theme='light'
@@ -129,53 +138,60 @@ const Layouts = () => {
                 }}
               />
               <div className="ml-auto mr-6 flex items-center">
-                <Button
-                  type='text'
-                  onClick={onChangeColor}
-                  style={{
-                    fontSize: "16px",
-                    height: "auto",
-                    margin: 0,
-                    padding: 5
-                  }}
-                >
-                  <svg
-                    t="1696172132104" viewBox="0 0 1024 1024"
-                    version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1499"
-                    width="30" height="30"
+                <Tooltip title="改变颜色存在问题" className="mr-3 flex items-center">
+                  <Button
+                    type='text'
+                    onClick={onChangeColor}
+                    style={{
+                      fontSize: "16px",
+                      height: "auto",
+                      margin: 0,
+                      padding: 5
+                    }}
                   >
-                    <path d={colorSvg} fill={getColor("colorPrimary")} p-id="1500" />
-                  </svg>
-                </Button>
-                <Button
-                  type='text'
-                  onClick={clearColor}
-                  style={{
-                    fontSize: "16px",
-                    height: "auto",
-                    margin: 0,
-                    padding: 5
-                  }}
-                  className="!mr-3"
-                >
-                  <span
-                    style={{ backgroundColor: getColor("colorPrimary") }}
-                    className="fixed w-[2px] h-[33px] [transform:rotate(50deg)] ml-[14px]"
+                    <svg
+                      t="1696172132104" viewBox="0 0 1024 1024"
+                      version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1499"
+                      width="30" height="30"
+                    >
+                      <path d={colorSvg} fill={getColor("colorPrimary")} p-id="1500" />
+                    </svg>
+                  </Button>
+                </Tooltip>
+                <Tooltip title="清空颜色存在问题" className="mr-3 mr-3 flex items-center">
+                  <Button
+                    type='text'
+                    onClick={clearColor}
+                    style={{
+                      fontSize: "16px",
+                      height: "auto",
+                      margin: 0,
+                      padding: 5
+                    }}
+                    className="!mr-3"
+                  >
+                    <span
+                      style={{ backgroundColor: getColor("colorPrimary") }}
+                      className="fixed w-[2px] h-[33px] [transform:rotate(50deg)] ml-[14px]"
+                    />
+                    <svg
+                      t="1696172132104" viewBox="0 0 1024 1024"
+                      version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1499"
+                      width="30" height="30"
+                    >
+                      <path d={colorSvg} fill={getColor("colorPrimary")} p-id="1500" />
+                    </svg>
+                  </Button>
+                </Tooltip>
+                <Tooltip title="存在问题" className="mr-3 flex items-center">
+                  <Switch
+                    checked={useDark}
+                    onChange={changeTheme}
+                    checkedChildren="Dark"
+                    unCheckedChildren="Light"
                   />
-                  <svg
-                    t="1696172132104" viewBox="0 0 1024 1024"
-                    version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1499"
-                    width="30" height="30"
-                  >
-                    <path d={colorSvg} fill={colorPrimary} p-id="1500" />
-                  </svg>
-                </Button>
-                <Switch
-                  checked={useDark}
-                  onChange={changeTheme}
-                  checkedChildren="Dark"
-                  unCheckedChildren="Light"
-                />
+                </Tooltip>
+
               </div>
             </Header>
             <Content
@@ -191,7 +207,7 @@ const Layouts = () => {
             </Content>
           </Layout>
         </Layout >
-      </ConfigProvider>
+      </ConfigProvider >
     </>
   );
 };
