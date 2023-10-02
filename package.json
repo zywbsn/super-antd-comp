@@ -1,6 +1,6 @@
 {
   "name": "super-antd-comp",
-  "version": "1.0.3",
+  "version": "0.0.1",
   "author": "silenceLamb",
   "scripts": {
     "dev": "vite --open --host --port 3000",
