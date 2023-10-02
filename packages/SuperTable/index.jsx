@@ -14,7 +14,6 @@ const ButtonList = (props) => {
   }
 };
 const SuperTable = (props) => {
-  console.log("SuperTable props", props);
   const { tableConfig, leftButton } = props;
 
   return (
